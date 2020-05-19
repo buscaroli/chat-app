@@ -17,10 +17,15 @@ app.use(express.static(publicPath))
 io.on('connection', (socket) => {
     console.log('New Web Socket connected.')
 
+    socket.broadcast.emit('message', 'A new user has joined the Chat!')
+
     socket.on('sendMessage', (msg) => {
         io.emit('message', msg)
     })
 
+    socket.on('disconnect', () => {
+        io.emit('message', 'A user has left the Chat :( ')
+    })
 })
 
 server.listen(port, () => {
