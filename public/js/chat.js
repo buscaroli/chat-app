@@ -32,18 +32,20 @@ inputHandler.addEventListener('submit', (e) => {
     })
 })
 
-socket.on('locationMessage', (link) => {
-    console.log(link)
+socket.on('locationMessage', ({ url, timeStamp }) => {
+    console.log(url)
     const html = Mustache.render(locationTemplate, { 
-        location: link 
+        location: url,
+        locationTimeStamp: timeStamp
     })
     messagesHandler.insertAdjacentHTML('afterbegin', html)
 })
 
-socket.on('message', (msg) => {
+socket.on('message', ({ text, timeStamp }) => {
    
     const html = Mustache.render(messageTemplate, {
-        message: msg
+        message: text,
+        timeStamp
     })
     messagesHandler.insertAdjacentHTML('afterbegin', html) 
 })

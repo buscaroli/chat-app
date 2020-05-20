@@ -3,6 +3,7 @@ const path = require('path')
 const http = require('http')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
+const { generateMessage, generateLocationMsg } = require('./utils/messages')
 
 const app = express()
 const server = http.createServer(app)
@@ -18,25 +19,26 @@ app.use(express.static(publicPath))
 io.on('connection', (socket) => {
     console.log('New Web Socket connected.')
 
-    socket.broadcast.emit('message', 'A new user has joined the Chat!')
+    socket.emit('message', generateMessage('You have entered the Main Chat.'))
+    socket.broadcast.emit('message', generateMessage('A new user has joined the Chat!'))
 
     socket.on('sendMessage', (msg, callback) => {
         const filter = new Filter({ placeHolder: 'x' })
-        let filtered_msg = msg
-        if (filter.isProfane) {
-            filtered_msg = filter.clean(msg)
+        if (filter.isProfane(msg)) {
+            msg = filter.clean(msg)
         }
-        io.emit('message', filtered_msg)
+
+        io.emit('message', generateMessage(msg))
         callback('Message delivery: acknowledged.')
     })
 
     socket.on('disconnect', () => {
-        io.emit('message', 'A user has left the Chat :( ')
+        io.emit('message', generateMessage('A user has left the Chat :( '))
     })
 
     socket.on('sendLocation', (coord, callback) => {
         const { latitude, longitude } = coord
-        io.emit('locationMessage', `https://google.com/maps?q=${latitude},${longitude}`)
+        io.emit('locationMessage', generateLocationMsg(`https://google.com/maps?q=${latitude},${longitude}`))
         callback('Location shared!')
     })
 
