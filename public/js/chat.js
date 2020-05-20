@@ -3,17 +3,49 @@ const socket = io()
 const resultHandler = document.getElementById('chatText')
 const inputHandler = document.getElementById('formField')
 const geoButtonHandler = document.getElementById('sendGeo')
-let historicalMsgs = ''
+const msgButtonHandler = document.getElementById('sendMsg')
+const inputFieldHandler = document.getElementById('inputField')
+const messagesHandler = document.querySelector('#messages')
+
+
+// TEMPLATES -------------------
+const messageTemplate = document.querySelector('#message-template').innerHTML
+const locationTemplate = document.querySelector('#location-template').innerHTML
+
+// -----------------------------
 
 inputHandler.addEventListener('submit', (e) => {
     e.preventDefault()
+    // disable button
+    msgButtonHandler.setAttribute('disabled', 'disabled')
+    
     let enteredText = document.getElementById('inputField').value  
-    socket.emit('sendMessage', enteredText)
+    socket.emit('sendMessage', enteredText, (msg) => {
+        inputField.value = ''
+        // enable button
+        setTimeout(() => {
+            msgButtonHandler.removeAttribute('disabled')
+            inputFieldHandler.focus()
+        }, 1000)
+        
+        console.log(msg)
+    })
+})
+
+socket.on('locationMessage', (link) => {
+    console.log(link)
+    const html = Mustache.render(locationTemplate, { 
+        location: link 
+    })
+    messagesHandler.insertAdjacentHTML('afterbegin', html)
 })
 
 socket.on('message', (msg) => {
-    historicalMsgs = historicalMsgs + '<br>' + msg
-    resultHandler.innerHTML = historicalMsgs 
+   
+    const html = Mustache.render(messageTemplate, {
+        message: msg
+    })
+    messagesHandler.insertAdjacentHTML('afterbegin', html) 
 })
 
 geoButtonHandler.addEventListener('click', (e) => {
@@ -22,10 +54,17 @@ geoButtonHandler.addEventListener('click', (e) => {
         alert('Your system is not able to send your location.')
     }
      
+    geoButtonHandler.setAttribute('disabled', 'disabled')
+
     function success (position) {
-        socket.emit('sendLocation', {
+        const coord = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
+        }
+
+        socket.emit('sendLocation', coord, (msg) => {
+        console.log(msg)
+        geoButtonHandler.removeAttribute('disabled')
         })
     }
 

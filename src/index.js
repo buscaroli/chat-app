@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const http = require('http')
 const socketio = require('socket.io')
+const Filter = require('bad-words')
 
 const app = express()
 const server = http.createServer(app)
@@ -19,17 +20,24 @@ io.on('connection', (socket) => {
 
     socket.broadcast.emit('message', 'A new user has joined the Chat!')
 
-    socket.on('sendMessage', (msg) => {
-        io.emit('message', msg)
+    socket.on('sendMessage', (msg, callback) => {
+        const filter = new Filter({ placeHolder: 'x' })
+        let filtered_msg = msg
+        if (filter.isProfane) {
+            filtered_msg = filter.clean(msg)
+        }
+        io.emit('message', filtered_msg)
+        callback('Message delivery: acknowledged.')
     })
 
     socket.on('disconnect', () => {
         io.emit('message', 'A user has left the Chat :( ')
     })
 
-    socket.on('sendLocation', (coord) => {
+    socket.on('sendLocation', (coord, callback) => {
         const { latitude, longitude } = coord
-        io.emit('message', `<a href='https://google.com/maps?q=${latitude},${longitude}'>My Location </a>`)
+        io.emit('locationMessage', `https://google.com/maps?q=${latitude},${longitude}`)
+        callback('Location shared!')
     })
 
 })
