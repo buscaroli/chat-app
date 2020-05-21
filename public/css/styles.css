@@ -19,7 +19,7 @@ h2 {
 
 #wrapper {
     display: grid;
-    grid-template-rows: 200px 120px auto 50px;
+    grid-template-rows: 200px 120px minmax(150px, auto) 50px;
 
     height: 100vh;
     min-width: 500px;
