@@ -1,10 +1,11 @@
 body {
-    background: rgb(38,36,49);
-    color: #345561;
-    font-family: Dosis, sans-serif;
+    background: #ada397;
+    color: #3e4444;
+    font-family: 'Dosis', sans-serif;
     margin: 0;
     font-size: 1.2em;
-    
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 h1 {
@@ -16,52 +17,66 @@ h2 {
 }
 
 #wrapper {
+    display: grid;
+    grid-template-rows: 200px 120px 300px 50px;
     background: #75BEFF;
-    margin: 0 15%;
+    
     min-width: 500px;
     text-align: center;
-    
+      
 }
 
 #head {
-    background: lightcoral;
+    background: #eca1a6;
     padding: 10px;
 }
 
 #actions {
     
-    background: lightgreen;
+    background: #d6cbd3;
     padding: 10px;
 }
 
-input {
-    padding: 10px;
+
+#form-field, #sendGeo {
+    width: 300px;
+}
+
+input, button, #form-field {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 600;
     font-size: 0.8em;
-}
-
-button {
-    padding: 10px;
     border-radius: 5px;
-    font-size: 0.8em;
-}
-
-#sendMsg {
-    
+    padding: 10px;
 }
 
 #sendGeo {
-
+    margin-top: 5px;
 }
 
 #output {
-    background: lightgoldenrodyellow;
+    background: #bdcebe;
     padding: 0 20px;
     text-align: left;
+    overflow-y: scroll;
+    overflow-x: hidden;  
+    
 }
 
 #footer {
-    background: lightcyan;
+    background:#eca1a6;
     text-align: center;
-    font-size: 1.2em;
+    font-size: 0.8em;
+    font-weight: 600;
     padding: 5px;
 }
+
+/* MEDIA QUERIES    ------------------------ */
+@media only screen and (max-width: 600px) {
+    h1 {
+      font-size: 2em;
+    }
+    h2 {
+        font-size: 1.2em;
+    }
+  }
