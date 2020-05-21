@@ -6,6 +6,7 @@ body {
     font-size: 1.2em;
     max-width: 900px;
     margin: 0 auto;
+    
 }
 
 h1 {
@@ -18,9 +19,9 @@ h2 {
 
 #wrapper {
     display: grid;
-    grid-template-rows: 200px 120px 300px 50px;
-    background: #75BEFF;
-    
+    grid-template-rows: 200px 120px auto 50px;
+
+    height: 100vh;
     min-width: 500px;
     text-align: center;
       
