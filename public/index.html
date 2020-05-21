@@ -3,53 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/css/styles.css" type="text/css" rel="stylesheet"></link>
-    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap" rel="stylesheet">
+    <!-- <link href="/css/styles.css" type="text/css" rel="stylesheet"></link> -->
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap" rel="stylesheet"> {% endcomment %} -->
     <title>Chat App</title>
 </head>
 <body>
-    <div id="wrapper">
-            <div id="head">
-            <h1>Welcome to the Chat App</h1>
-            <h2>The chat has a profanity filter, but still try and be polite.</h2>
-        </div>
-        
-        <div id="actions">
-            <form action="" id="formField">
-                <input id="inputField" type="text" name="inputText" value="" placeholder="Enter your text here">
-                <button id='sendMsg'> Send Msg </button>
-            </form>  
-            <button id="sendGeo">Send your Location</button>
-        </div>
-        
-        <div id="output">
-            <div id="messages"></div>
-        </div>   
-
-        <div>
-        <div id="footer">
-            <p>Chat App creater by @me in May 2020.</p>
-        </div>
-        </div>
-    
+   <div id="centered-form">
+    <div id="centered-form__box">
+        <h1>Join</h1>
+        <form action="/chat.html">
+            <label for="">Nickname</label>
+            <input type="text" name="username" placeholder="Nickname here" required>
+            <label for="">Room</label>
+            <input type="text" name="room" placeholder="Room here" required>
+            <button>Enter the Chat</button>
+        </form>
     </div>
-    
-    <!-- MUSTACHE TEMPLATES -->
-    <script id="message-template" type="text/html">
-        <div>
-            <p> {{timeStamp}} - {{message}}</p>
-        </div>
-    </script>
+   </div>
 
-    <script id="location-template" type="text/html">
-        <div>
-            <p> {{locationTimeStamp}} - <a href="{{location}}" target="_blank">My Location</a></p>
-        </div>
-    </script>
-
-    <!-- SCRIPTS           -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.1.0/mustache.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.4/qs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/chat.js"></script>
 </body>

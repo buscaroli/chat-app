@@ -19,8 +19,13 @@ app.use(express.static(publicPath))
 io.on('connection', (socket) => {
     console.log('New Web Socket connected.')
 
-    socket.emit('message', generateMessage('You have entered the Main Chat.'))
-    socket.broadcast.emit('message', generateMessage('A new user has joined the Chat!'))
+    socket.on('join', ({ username, room }) => {
+        socket.join(room)
+
+        socket.to(room).emit('message', generateMessage(`You have entered ${ room }.`))
+        socket.broadcast.to(room).emit('message', generateMessage(`${ username } has joined the Room!`))
+    })
+
 
     socket.on('sendMessage', (msg, callback) => {
         const filter = new Filter({ placeHolder: 'x' })
@@ -43,6 +48,7 @@ io.on('connection', (socket) => {
     })
 
 })
+
 
 server.listen(port, () => {
     console.log(`Server Up and running on port ${port}.`)

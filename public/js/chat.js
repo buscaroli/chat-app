@@ -12,6 +12,10 @@ const messagesHandler = document.querySelector('#messages')
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationTemplate = document.querySelector('#location-template').innerHTML
 
+// OPTIONS ---------------------
+const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
+
+
 // -----------------------------
 
 inputHandler.addEventListener('submit', (e) => {
@@ -74,3 +78,5 @@ geoButtonHandler.addEventListener('click', (e) => {
 
 
 })
+
+socket.emit('join', { username, room })
