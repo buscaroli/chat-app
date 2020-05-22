@@ -3,23 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link href="/css/styles.css" type="text/css" rel="stylesheet"></link> -->
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap" rel="stylesheet"> {% endcomment %} -->
+    <link href="/css/styles.css" type="text/css" rel="stylesheet"></link>
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&display=swap" rel="stylesheet">
     <title>Chat App</title>
 </head>
 <body>
-   <div id="centered-form">
-    <div id="centered-form__box">
-        <h1>Join</h1>
-        <form action="/chat.html">
-            <label for="">Nickname</label>
-            <input type="text" name="username" placeholder="Nickname here" required>
-            <label for="">Room</label>
-            <input type="text" name="room" placeholder="Room here" required>
-            <button>Enter the Chat</button>
-        </form>
+    <div id="outside-box">
+        <div id="join">
+            <h1>Join</h1>
+            <h2>Enter nickname and room</h2>
+        </div>
+        <div id="form-join">
+            <form action="/chat.html">
+                <label for="">Nickname</label>
+                <input type="text" name="username" placeholder="Nickname here" required>
+                <label for="">Room</label>
+                <input type="text" name="room" placeholder="Room here" required>
+                <button>Enter the Chat</button>
+            </form>
+        </div>
     </div>
-   </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/chat.js"></script>

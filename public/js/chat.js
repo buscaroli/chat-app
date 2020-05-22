@@ -6,11 +6,13 @@ const geoButtonHandler = document.getElementById('sendGeo')
 const msgButtonHandler = document.getElementById('sendMsg')
 const inputFieldHandler = document.getElementById('inputField')
 const messagesHandler = document.querySelector('#messages')
+const sidebarHandler = document.querySelector('#sidebar')
 
 
 // TEMPLATES -------------------
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationTemplate = document.querySelector('#location-template').innerHTML
+const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 
 // OPTIONS ---------------------
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
@@ -18,41 +20,60 @@ const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true }
 
 // -----------------------------
 
+
 inputHandler.addEventListener('submit', (e) => {
     e.preventDefault()
     // disable button
     msgButtonHandler.setAttribute('disabled', 'disabled')
     
     let enteredText = document.getElementById('inputField').value  
-    socket.emit('sendMessage', enteredText, (msg) => {
+    
+    socket.emit('sendMessage', enteredText, (error) => {
         inputField.value = ''
         // enable button
         setTimeout(() => {
             msgButtonHandler.removeAttribute('disabled')
             inputFieldHandler.focus()
+
+            if (error) {
+                return console.log(error)
+            }
+            console.log('message delivered')
         }, 1000)
         
-        console.log(msg)
     })
 })
 
-socket.on('locationMessage', ({ url, timeStamp }) => {
-    console.log(url)
+
+socket.on('locationMessage', (message) => {
+   
     const html = Mustache.render(locationTemplate, { 
-        location: url,
-        locationTimeStamp: timeStamp
+        username: message.username,
+        location: message.url,
+        locationTimeStamp: message.timeStamp
     })
     messagesHandler.insertAdjacentHTML('afterbegin', html)
 })
 
-socket.on('message', ({ text, timeStamp }) => {
-   
+socket.on('message', (message) => {
+
     const html = Mustache.render(messageTemplate, {
-        message: text,
-        timeStamp
+        username: message.username,
+        message: message.text,
+        timeStamp: message.timeStamp
     })
     messagesHandler.insertAdjacentHTML('afterbegin', html) 
 })
+
+
+socket.on('roomUsers', ({ room, users }) => {
+    const html = Mustache.render(sidebarTemplate, {
+        room,
+        users
+    })
+    sidebarHandler.innerHTML = html
+})
+
 
 geoButtonHandler.addEventListener('click', (e) => {
     const locationObject = navigator.geolocation
@@ -69,7 +90,7 @@ geoButtonHandler.addEventListener('click', (e) => {
         }
 
         socket.emit('sendLocation', coord, (msg) => {
-        console.log(msg)
+        
         geoButtonHandler.removeAttribute('disabled')
         })
     }
@@ -79,4 +100,9 @@ geoButtonHandler.addEventListener('click', (e) => {
 
 })
 
-socket.emit('join', { username, room })
+socket.emit('join', { username, room }, (error) => {
+    if(error) {
+        alert(error)
+        location.href = '/'
+    }
+})

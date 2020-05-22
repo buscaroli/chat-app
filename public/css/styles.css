@@ -1,5 +1,5 @@
 body {
-    background: #ada397;
+    background: rgb(33, 27, 75);
     color: #3e4444;
     font-family: 'Dosis', sans-serif;
     margin: 0;
@@ -11,16 +11,45 @@ body {
 
 h1 {
     font-size: 2.5em;
+    color: lightgrey;
 }
 
 h2 {
     font-size: 1.4em;
+    color: lightgrey;
+}
+
+h3 {
+    font-size: 1.2em; 
+    font-weight: 800;
+    text-align: center;
+    background: darkviolet;
+    color: lightpink;
+    border-radius: 5px;
+    margin: 3px;
+}
+
+h4 {
+    text-align: left;
+    padding-left: 5px;
+    background: darkcyan;
+    color: lightpink;
+    border-radius: 5px;
+    margin: 3px;
 }
 
 #wrapper {
     display: grid;
-    grid-template-rows: 200px 120px minmax(150px, auto) 50px;
-
+    grid-gap: 5px;
+    grid-template-rows:     200px auto 120px minmax(150px, auto) 50px;
+    grid-template-columns: 150px 1fr;
+    grid-template-areas:    "h h h h"
+                            "h h h h"
+                            "s a a a"
+                            "s o o o"
+                            "s o o o"
+                            "s o o o"
+                            "f f f f";
     height: 100vh;
     min-width: 500px;
     text-align: center;
@@ -28,13 +57,38 @@ h2 {
 }
 
 #head {
-    background: #eca1a6;
+    grid-area: h;
+    background: rebeccapurple;
+    color: lightgray;
+    border-radius: 20px;
     padding: 10px;
 }
 
+#sidebar {
+    grid-area: s;
+    background: pink;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 0.8em;
+}
+
+ul {
+    border: solid darkcyan 1px;
+    border-radius: 5px;
+    margin: 3px;
+}
+
+li {
+    list-style-type: none;
+   
+
+}
+
 #actions {
-    
-    background: #d6cbd3;
+    grid-area: a;
+    background: rebeccapurple;
+    border-radius: 20px;
+    color: lightgray;
     padding: 10px;
 }
 
@@ -49,28 +103,98 @@ input, button, #form-field {
     font-size: 0.8em;
     border-radius: 5px;
     padding: 10px;
+    border-radius: 20px;
+    background-color:rebeccapurple;
+    color: lightgrey;
+    border-style: solid 1px lightgrey;
+    
 }
 
 #sendGeo {
     margin-top: 5px;
-}
-
-#output {
-    background: #bdcebe;
-    padding: 0 20px;
-    text-align: left;
-    overflow-y: scroll;
-    overflow-x: hidden;  
     
 }
 
-#footer {
-    background:#eca1a6;
-    text-align: center;
-    font-size: 0.8em;
-    font-weight: 600;
-    padding: 5px;
+#output {
+    grid-area: o;
+    background: #bdcebe;
+    padding: 0 20px;
+    text-align: left;
+    overflow-y: auto;
+    overflow-x: hidden;  
+    border-radius: 20px;
+    direction: rtl;
 }
+
+#footer {
+    grid-area: f;
+    background: rebeccapurple;
+    color: lightgray;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 1em;
+    font-weight: 600;
+    
+}
+
+/* SCROLLBARS ------------------ */
+::-webkit-scrollbar {
+    width: 20px;
+    border-radius: 5px;
+  }
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #bdcebe; 
+  }
+   
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: darkcyan; 
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: darkcyan; 
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: darkorchid; 
+}
+
+
+/* JOIN PAGE ------------------ */
+#outside-box {
+    background-color: darkorchid;
+    border-radius: 20px;
+    text-align: center;
+    padding: 50px;
+    margin-top: 50px;
+}
+
+#join {
+    margin-bottom: 60px;
+}
+
+#form-join {
+    background-color: rgb(33, 27, 75);
+    border-radius: 50px;
+    text-align: center;
+    padding: 50px;
+}
+
+#form-join label,
+#form-join input,
+#form-join button {
+    color: lightgrey;
+}
+
+
+
+
+
 
 /* MEDIA QUERIES    ------------------------ */
 @media only screen and (max-width: 600px) {
